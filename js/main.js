@@ -35,6 +35,8 @@ async function init() {
     //     myForm.reset();
     // });
 
+    let earthquake_layer
+
     const mapElement = document.getElementById("map");
 
     const OSM = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -82,13 +84,13 @@ async function init() {
     });
 
     const overlayLayers = {};
-    console.log('Current zoom level: ' + map.getZoom());
+
     const layerControl = L.control.layers(baseMaps, overlayLayers, {
         collapsed: false,
     }).addTo(map);
 
     const scaleBar = L.control.scale().addTo(map);
-   
+
     const zoomHome = L.Control.zoomHome({ position: 'topright' });
     zoomHome.addTo(map);
 
@@ -111,49 +113,47 @@ async function init() {
     }
 
     // Example usage:
-    const year_input = '2024';
-    const month_input = '4';
-    const magnitude_input = '0';
+    // const year_input = '2024';
+    // const month_input = '4';
+    // const magnitude_input = '0';
+    function loadData(year_input, month_input, magnitude_input) {
+        const { start_date, end_date } = getMonthDateRange(year_input, month_input);
+        const apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${start_date}&endtime=${end_date}&minmagnitude=${magnitude_input}`;
 
-    const { start_date, end_date } = getMonthDateRange(year_input, month_input);
-
-    const apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${start_date}&endtime=${end_date}&minmagnitude=${magnitude_input}`;
-
-    fetch(apiUrl)
+           fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            // Call a function to add the data to the map once it's fetched
-            addGeoJSONToMap(data);
+
+            // Remove old layer if it exists
+            if (earthquake_layer) {
+                map.removeLayer(earthquake_layer);
+            }
+
+            earthquake_layer = L.geoJSON(data, {
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, stylePoints(feature));
+                },
+                onEachFeature: function (feature, layer) {
+
+                    layer.bindPopup(`<b>Magnitude ${feature.properties.mag}</b><br>${feature.properties.place}`);
+
+                    layer.on('mouseover', () => layer.setStyle(hoverStyle));
+                    layer.on('mouseout', () => layer.setStyle(stylePoints(feature)));
+                }
+            }).addTo(map);
+
         })
         .catch(error => {
             console.error('Error fetching GeoJSON data:', error);
         });
 
-    function addGeoJSONToMap(jsonData) {
-        // Create a new GeoJSON layer and add it to the map
 
-        L.geoJSON(jsonData, {
-            // Optional: Customize how points are rendered
-
-            pointToLayer: function (feature, latlng) {
-                // Use this function to create custom markers (e.g., icons) instead of default points
-                return L.circleMarker(latlng, stylePoints(feature));
-            },
-            // Optional: Add popups or other interactions to each feature
-            onEachFeature: function (feature, layer) {
-
-                layer.bindPopup(`<b>Magnitude ${feature.properties.mag}</b><br>${feature.properties.place}`);
-
-                layer.on('mouseover', e => {
-                    layer.setStyle(hoverStyle)
-                });
-
-                layer.on('mouseout', e => {
-                    layer.setStyle(stylePoints(feature))
-                });
-            }
-        }).addTo(map);
     }
+
+
+
+
+
 
     const stylePoints = (feature) => {
         const mag = feature.properties?.mag;
@@ -200,6 +200,14 @@ async function init() {
         fillColor: "yellow",
     };
 
+document.getElementById("data_form").addEventListener("submit", function(e) {
+    e.preventDefault();
 
+    const year_input = document.getElementById("year").value;
+    const month_input = document.getElementById("month").value;
+    const magnitude_input = document.getElementById("magnitude").value;
+
+    loadData(year_input, month_input, magnitude_input);
+});
 
 }

@@ -49,6 +49,15 @@
     <p>Captured inputs will appear here:</p>
     <div id="outputArea"></div> -->
 
+    <div class = "control_bar">
+        <form id = "data_form">
+            <input type= "number" id="year" placeholder="Year" min="1900" max = "2100" required>
+            <input type= "number" id="month" placeholder="Month (1-12)" min="1" max = "12" required>
+            <input type= "number" id="magnitude" placeholder="Min Mag" value = "1" min="0" max = "10" required>
+            <button type="submit">Load</button>
+        </form>
+    </div>
+
     <div id="map"></div>
 
     <script src="./js/main.js"></script>
