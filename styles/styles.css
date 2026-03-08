@@ -17,10 +17,9 @@ body,
   width: 100%;
 }
 
-/* #map {
-  height: 100%;
-  width: 100vw;
-} */
+html, body {
+  touch-action: manipulation;
+}
 
 #sidebar {
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -46,6 +45,11 @@ body,
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+.control-bar input {
+  font-size: 16px;
+  padding: 6px;
 }
 
 #data_form input {
@@ -84,8 +88,9 @@ body,
 
   .control_bar {
     left: auto;
-    right: 10px;
+    right: 20%;
     transform: none;
+    /* max-width: 70%;  */
   }
 
   #data_form {
@@ -97,5 +102,10 @@ body,
   #data_form button {
     flex-basis: 100%;
   }
+  .leaflet-control-attribution {
+    text-align: right;
+    max-width: 70%; 
+}
+
 
 }

@@ -6,6 +6,7 @@ async function init() {
 
     const mapElement = document.getElementById("map");
 
+    // Basemaps
     const OSM = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         minZoom: 3,
         maxZoom: 20,
@@ -27,7 +28,6 @@ async function init() {
             attribution:
                 '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             ext: "png",
-            // noWrap: true,
         }
     );
 
@@ -37,8 +37,7 @@ async function init() {
         "Street Map": OSM,
     };
 
-
-
+    // Restrict panning
     var southWest = L.latLng(-90, -180),
         northEast = L.latLng(90, 180),
         bounds = L.latLngBounds(southWest, northEast);
@@ -52,6 +51,7 @@ async function init() {
 
     });
 
+    // Basemaps
     const overlayLayers = {};
 
     const layerControl = L.control.layers(baseMaps, overlayLayers, {
@@ -59,6 +59,7 @@ async function init() {
         position: 'bottomright',
     }).addTo(map);
 
+    // Scale bar and home button
     const scaleBar = L.control.scale().addTo(map);
 
     const zoomHome = L.Control.zoomHome({ position: 'topright' });
@@ -68,11 +69,13 @@ async function init() {
         position: 'left'
     });
 
+    // Sidebar
     map.addControl(sidebar);
     setTimeout(function () {
         sidebar.show();
     }, 500);
 
+    // Date helper function
     function getMonthDateRange(year, month) {
         // Ensure numbers
         year = Number(year);
@@ -91,10 +94,7 @@ async function init() {
         return { start_date, end_date };
     }
 
-    // Example usage:
-    // const year_input = '2024';
-    // const month_input = '4';
-    // const magnitude_input = '0';
+    // Load GeoJSON function
     function loadData(year_input, month_input, magnitude_input) {
         const { start_date, end_date } = getMonthDateRange(year_input, month_input);
         const apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${start_date}&endtime=${end_date}&minmagnitude=${magnitude_input}`;
@@ -129,7 +129,7 @@ async function init() {
 
     }
 
-
+    // Styles
     const stylePoints = (feature) => {
         const mag = feature.properties?.mag;
 
@@ -175,6 +175,7 @@ async function init() {
         fillColor: "yellow",
     };
 
+    // Capture user input and load data
     document.getElementById("data_form").addEventListener("submit", function (e) {
 
         e.preventDefault();
@@ -186,4 +187,4 @@ async function init() {
         loadData(year_input, month_input, magnitude_input);
     });
 
-}
+} //Init

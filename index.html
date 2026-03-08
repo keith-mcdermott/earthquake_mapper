@@ -16,8 +16,8 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-    <!-- Font Awsome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Font Awsome (home button) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Zoom home and sidebar plugins -->
     <link rel="stylesheet" href="./plugins/zoom_home/leaflet.zoomhome.css" />
     <script src="./plugins/zoom_home/leaflet.zoomhome.js"></script>
@@ -28,7 +28,7 @@
 </head>
 
 <body>
-
+    <!-- Sidebar -->
     <div id="sidebar">
         <h1>Earthquake Mapper</h1>
         <p>This interactive map lets you explore earthquake activity around the world using data from the USGS
@@ -39,10 +39,12 @@
             <li>Month (1-12) </li>
             <li>Minimum Magnitude</li>
         </ul>
-        <p>Each earthquake is displayed as a point whose size and color reflect its magnitude. The map supports zooming and panning so you can examine seismic activity at global, regional, or local scales.</p>
-        <p>The application retrieves live data from the USGS in GeoJSON format and renders it dynamically, allowing you to quickly analyze recent earthquake patterns and trends. </p>
+        <p>Each earthquake is displayed as a point whose size and color reflect its magnitude. The map supports zooming
+            and panning so you can examine seismic activity at global, regional, or local scales.</p>
+        <p>The application retrieves live data from the USGS in GeoJSON format and renders it dynamically, allowing you
+            to quickly analyze recent earthquake patterns and trends. </p>
     </div>
-
+    <!-- User input control bar -->
     <div class="control_bar">
         <form id="data_form">
 
@@ -61,7 +63,7 @@
             <button type="submit" class="button">Load Data</button>
         </form>
     </div>
-
+    <!-- Map -->
     <div id="map"></div>
 
     <script src="./js/main.js"></script>
