@@ -3,19 +3,43 @@
 }
 
 body {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
+  background: #ccc;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size: 14px;
 }
 
-html, body,#map { 
-    height: 100%;
-    width: 100vw;
-     }
+html,
+body,
+#map {
+  height: 100%;
+  width: 100%;
+}
 
+/* #map {
+  height: 100%;
+  width: 100vw;
+} */
+
+#sidebar {
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
 .control_bar {
-  background: #f4f4f4;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+  border-radius: 6px;
+  padding: 10px 12px;
+  white-space: nowrap;
+  /* Prevents text from wrapping */
+  overflow: hidden;
+  /* Hides overflowing text */
 }
 
 #data_form {
@@ -25,13 +49,53 @@ html, body,#map {
 }
 
 #data_form input {
-  padding: 5px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid black;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 #data_form button {
-  padding: 6px 12px;
+  padding: 6px 10px;
+  margin-left: 10px;
+  border-radius: 6px;
   background: #1f6feb;
   color: white;
-  border: none;
+  border: 1px solid #1f6feb;
   cursor: pointer;
+  transition-duration: 0.4s;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+#data_form button:hover {
+  background-color: white;
+  color: #1f6feb;
+  border: 1px solid #1f6feb;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+@media (max-width: 850px) {
+
+  .control_bar {
+    left: auto;
+    right: 10px;
+    transform: none;
+  }
+
+  #data_form {
+    flex-wrap: wrap;
+  }
+
+  /* Move magnitude group and button to second line */
+  .field:nth-child(3),
+  #data_form button {
+    flex-basis: 100%;
+  }
+
 }

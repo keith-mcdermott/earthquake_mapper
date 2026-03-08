@@ -70,6 +70,8 @@ async function init() {
         "Street Map": OSM,
     };
 
+
+
     var southWest = L.latLng(-90, -180),
         northEast = L.latLng(90, 180),
         bounds = L.latLngBounds(southWest, northEast);
@@ -78,8 +80,8 @@ async function init() {
         center: [0, 0],
         zoom: 3,
         layers: [Stadia_AlidadeSmooth],
-        zoomControl: false
-        // maxBounds: bounds, // Restricts panning outside these bounds
+        zoomControl: false,
+        maxBounds: bounds, // Restricts panning outside these bounds
 
     });
 
@@ -87,12 +89,22 @@ async function init() {
 
     const layerControl = L.control.layers(baseMaps, overlayLayers, {
         collapsed: false,
+        position: 'bottomright',
     }).addTo(map);
 
     const scaleBar = L.control.scale().addTo(map);
 
     const zoomHome = L.Control.zoomHome({ position: 'topright' });
     zoomHome.addTo(map);
+
+        var sidebar = L.control.sidebar('sidebar', {
+        position: 'left'
+    });
+
+    map.addControl(sidebar);
+    setTimeout(function () {
+        sidebar.show();
+    }, 500);
 
     function getMonthDateRange(year, month) {
         // Ensure numbers
@@ -120,39 +132,35 @@ async function init() {
         const { start_date, end_date } = getMonthDateRange(year_input, month_input);
         const apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${start_date}&endtime=${end_date}&minmagnitude=${magnitude_input}`;
 
-           fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
 
-            // Remove old layer if it exists
-            if (earthquake_layer) {
-                map.removeLayer(earthquake_layer);
-            }
-
-            earthquake_layer = L.geoJSON(data, {
-                pointToLayer: function (feature, latlng) {
-                    return L.circleMarker(latlng, stylePoints(feature));
-                },
-                onEachFeature: function (feature, layer) {
-
-                    layer.bindPopup(`<b>Magnitude ${feature.properties.mag}</b><br>${feature.properties.place}`);
-
-                    layer.on('mouseover', () => layer.setStyle(hoverStyle));
-                    layer.on('mouseout', () => layer.setStyle(stylePoints(feature)));
+                // Remove old layer if it exists
+                if (earthquake_layer) {
+                    map.removeLayer(earthquake_layer);
                 }
-            }).addTo(map);
 
-        })
-        .catch(error => {
-            console.error('Error fetching GeoJSON data:', error);
-        });
+                earthquake_layer = L.geoJSON(data, {
+                    pointToLayer: function (feature, latlng) {
+                        return L.circleMarker(latlng, stylePoints(feature));
+                    },
+                    onEachFeature: function (feature, layer) {
+
+                        layer.bindPopup(`<b>Magnitude ${feature.properties.mag}</b><br>${feature.properties.place}`);
+
+                        layer.on('mouseover', () => layer.setStyle(hoverStyle));
+                        layer.on('mouseout', () => layer.setStyle(stylePoints(feature)));
+                    }
+                }).addTo(map);
+
+            })
+            .catch(error => {
+                console.error('Error fetching GeoJSON data:', error);
+            });
 
 
     }
-
-
-
-
 
 
     const stylePoints = (feature) => {
@@ -200,14 +208,15 @@ async function init() {
         fillColor: "yellow",
     };
 
-document.getElementById("data_form").addEventListener("submit", function(e) {
-    e.preventDefault();
+    document.getElementById("data_form").addEventListener("submit", function (e) {
 
-    const year_input = document.getElementById("year").value;
-    const month_input = document.getElementById("month").value;
-    const magnitude_input = document.getElementById("magnitude").value;
+        e.preventDefault();
 
-    loadData(year_input, month_input, magnitude_input);
-});
+        const year_input = document.getElementById("year").value;
+        const month_input = document.getElementById("month").value;
+        const magnitude_input = document.getElementById("magnitude").value;
+
+        loadData(year_input, month_input, magnitude_input);
+    });
 
 }

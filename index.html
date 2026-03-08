@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Document</title>
+    <title>Earthquake Mapper</title>
 
     <!-- Custom css -->
     <link rel="stylesheet" href="./styles/styles.css">
@@ -21,40 +21,43 @@
     <link rel="stylesheet" href="./plugins/zoom_home/leaflet.zoomhome.css" />
     <script src="./plugins/zoom_home/leaflet.zoomhome.js"></script>
 
+    <link rel="stylesheet" href="./plugins/sidebar/L.Control.Sidebar.css">
+    <script src="./plugins/sidebar/L.Control.Sidebar.js"></script>
+
 </head>
 
 <body>
 
-    <!-- <h2>Input Capture Example</h2> -->
+    <div id="sidebar">
+        <h1>Earthquake Mapper</h1>
+        <p>This interactive map lets you explore earthquake activity around the world using data from the USGS
+            Earthquake Catalog API.</p>
+        <p>Users provide: </p>
+        <ul>
+            <li>Year</li>
+            <li>Month (1-12) </li>
+            <li>Minimum Magnitude</li>
+        </ul>
+        <p>Each earthquake is displayed as a point whose size and color reflect its magnitude. The map supports zooming and panning so you can examine seismic activity at global, regional, or local scales.</p>
+        <p>The application retrieves live data from the USGS in GeoJSON format and renders it dynamically, allowing you to quickly analyze recent earthquake patterns and trends. </p>
+    </div>
 
-    <!-- <form id="myForm">
-        <div>
-            <label for="input1">Input 1:</label>
-            <input type="date" id="input1" name="input1" required>
-        </div>
-        <br>
-        <div>
-            <label for="input2">Input 2:</label>
-            <input type="date" id="input2" name="input2" required>
-        </div>
-        <br>
-        <div>
-            <label for="input3">Input 3:</label>
-            <input type="number" id="input3" name="input3" required>
-        </div>
-        <br>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="control_bar">
+        <form id="data_form">
 
-    <p>Captured inputs will appear here:</p>
-    <div id="outputArea"></div> -->
-
-    <div class = "control_bar">
-        <form id = "data_form">
-            <input type= "number" id="year" placeholder="Year" min="1900" max = "2100" required>
-            <input type= "number" id="month" placeholder="Month (1-12)" min="1" max = "12" required>
-            <input type= "number" id="magnitude" placeholder="Min Mag" value = "1" min="0" max = "10" required>
-            <button type="submit">Load</button>
+            <div class="field">
+                <label for="year">Year</label>
+                <input type="number" id="year" value="2015" min="1900" max="2100" required>
+            </div>
+            <div class="field">
+                <label for="month">Month</label>
+                <input type="number" id="month" value="1" min="1" max="12" required>
+            </div>
+            <div class="field">
+                <label for="year">Magnitude</label>
+                <input type="number" id="magnitude" placeholder="Min Mag" value="1" min="0" max="10" required>
+            </div>
+            <button type="submit" class="button">Load Data</button>
         </form>
     </div>
 
