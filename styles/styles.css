@@ -56,8 +56,8 @@ body {
 #data_form input {
   padding: 6px;
   flex: 1;
-  min-width: 90px;
-  max-width: 90px;
+  min-width: 120px;
+  max-width: 120px;
   border-radius: 6px;
   border: 1px solid black;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -74,7 +74,7 @@ body {
   transition-duration: 0.4s;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 14px;
-    min-width: 90px;
+    min-width: 120px;
   max-width: 100%;
 }
 
