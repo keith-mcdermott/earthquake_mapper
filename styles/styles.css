@@ -7,7 +7,7 @@ body {
   margin: 0;
   background: #ccc;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 html,
@@ -17,7 +17,8 @@ body,
   width: 100%;
 }
 
-html, body {
+html,
+body {
   touch-action: manipulation;
 }
 
@@ -25,6 +26,7 @@ html, body {
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 14px;
 }
+
 .control_bar {
   position: absolute;
   top: 10px;
@@ -47,13 +49,13 @@ html, body {
   align-items: center;
 }
 
-.control-bar input {
+#data_form input {
   font-size: 16px;
-  padding: 6px;
 }
 
 #data_form input {
   padding: 6px;
+
   border-radius: 6px;
   border: 1px solid black;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -84,6 +86,42 @@ html, body {
   gap: 5px;
 }
 
+/* Legend */
+.circle {
+  border-radius: 50%;
+  border: 0.5px solid black;
+}
+
+.circle-1 {
+  width: 8px;
+  height: 8px;
+  background-color: #FF8A8A;
+}
+
+.circle-2 {
+  width: 11px;
+  height: 11px;
+  background-color: #FF2E2E;
+}
+
+.circle-3 {
+  width: 14px;
+  height: 14px;
+  background-color: #A30000;
+}
+
+.circle-4 {
+  width: 17px;
+  height: 17px;
+  background-color: #470000;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 @media (max-width: 850px) {
 
   .control_bar {
@@ -102,10 +140,11 @@ html, body {
   #data_form button {
     flex-basis: 100%;
   }
+
   .leaflet-control-attribution {
     text-align: right;
-    max-width: 70%; 
-}
+    max-width: 70%;
+  }
 
 
 }
